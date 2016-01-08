@@ -2,8 +2,8 @@
 Param(
 	[Parameter(Mandatory=$True,Position=1)][string]$inputdir,
 	[Parameter(Mandatory=$True,Position=2)][string]$outputdir,
-	[string]$queue = "packshot-cp",
-	[string]$token = "cf4bb4c3-e46c-4ec5-abd0-c4edf2d0a8e9",
+	[string]$queue = "demo",
+	[string]$token = "",
 	[string]$url = "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest"
 )
 	
@@ -25,7 +25,6 @@ foreach ($file in $files ) {
 	$path=$file.Directory.FullName
 	$base=$file.Name
 	$db=Join-Path $path ".$($file.BaseName)"
-	Write-Verbose "db: $db"
 	echo $null >> $db
 	$state=(cat $db)
 	try {
