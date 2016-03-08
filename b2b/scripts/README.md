@@ -24,3 +24,4 @@ Use `cloudcutout.ps1`
 2. place images in the input folder
 3. call the script using: `./cloudcutout.ps1 input output`
 
+Minimum requirement for Windows environments are Powershell 3.0.
