@@ -35,7 +35,7 @@ foreach ($file in $files ) {
 	}
 	
 	if ($id) {
-		$endpoint="$url/queue/$queue/$id/status?token=$token"
+		$endpoint="${url}/queue/${queue}/${id}/status?token=${token}"
 		try {
 			$status=(Invoke-RestMethod -Uri $endpoint -method GET)
 			echo $id > $db
@@ -45,11 +45,11 @@ foreach ($file in $files ) {
 			Write-Verbose $_.Exception.Message
 		}
 		if ($status -eq "ok") {
-			$endpoint = "$url/queue/$queue/$id?token=$token"
+			$endpoint = "${url}/queue/${queue}/${id}?token=${token}"
 			$fileurl=(Invoke-RestMethod -Uri $endpoint -method GET)
 			$aux1=$fileurl.subString(0,$fileurl.indexOf("?"))
 			$ext=$aux1.subString($aux1.lastIndexOf(".")+1,$aux1.Length-$aux1.lastIndexOf(".")-1)
-			$output=Join-Path "$outputdir" $file.FullName.SubString($inputdir.Length)
+			$output=Join-Path "$outputdir" $file.Name
 			$output="$($output.SubString(0,$output.LastIndexOf("."))).$ext"
 			mkdir -Force (Split-Path $output)
 			# Download file
@@ -64,7 +64,7 @@ foreach ($file in $files ) {
 			}
 		}
 	} else {
-		$endpoint="$url/queue/$queue/todo?token=$token&filename=$base"
+		$endpoint="${url}/queue/${queue}/todo?token=${token}&filename=${base}"
 		Write-Verbose "endpoint: $endpoint"
 		try {
 			$resp=($wc.UploadFile($endpoint, $file.FullName))
