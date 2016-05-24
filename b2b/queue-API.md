@@ -24,6 +24,18 @@ GET /queue/[QUEUE_ID]/[JOBID]/status?token=[TOKEN]
 Returns: String describing the status, e.g., 'processing', 'error', 'approved', or 'rejected'.
 ```
 
+#### Query the statuses of an entire order
+Use this endpoint to get a single string describing the status of the job. 
+
+```
+GET /queue/[QUEUE_ID]/order/[ORDER_ID]/status?token=[TOKEN]
+Returns: JSON dictionary with number of jobs in each status, e.g.:
+{
+"processing": 10, 
+"delivered": 5
+}
+```
+
 #### Get download link for file
 This endpoint provides the download link for the processed job. Returns an empty string if the file is not yet ready to be downloaded.
 ```
