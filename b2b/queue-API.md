@@ -3,7 +3,7 @@ This provides documentation and [example](#demo) for the CloudCutout queue API. 
 
 The following endpoints are provided to submit, query and download images. Replace `[TOKEN]` with the API key you receive from CloudCutout. Replace `[QUEUE_ID]` with the queue ID you receive from CloudCutout.
 
-Prepend all endpoints with `https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/`.
+Prepend all endpoints with `https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/`.
 
 #### Submit image
 Use this endpoint to submit an image for processing and obtain a job ID. `[FILENAME]` (optional) is the filename you want to register for the file. `[ORDER_ID]` (optional) is the order ID you want associated with this image. 
@@ -105,8 +105,11 @@ tic, toc...
 Ok, welcome back. Now query for the status again:
 ```
 $ curl -k -X GET "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/status?token=${token}"
-ok
+qa
 ```
+
+(note that this status can differ, depending on what you have agreed with CloudCutout on)
+
 That means that the cutout is ready for inspection. Let's get the download URL and download the image to local disk:
 ```
 $ url=$(curl -k -X GET "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}?token=${token}")
@@ -118,7 +121,10 @@ The downloaded image should look something like this:
 
 ![The produced cutout.png](https://s3-us-west-1.amazonaws.com/cloudcutout-web/bayes_cutout.png)
 
-Note: If you are using the screening ("QA-Tinder") tool, the image is ready for that when it is in 'ok'. After screening it will be in either 'approved' or 'rejected' when you query for the status.
+Note: If you are using the QA tool, the image is ready for that when it is in 'qa'. After screening it will be in either 'photoshop' or 'delivered' when you query for the status.
+
+If you have an API key, the queue ID and the order ID you can QA an entire order by going to the following link:
+[https://qa-alt.cloudcutout.com/?apikey=${apikey}&queue_id=${queue_id}&order_id=${order_id}](https://qa-alt.cloudcutout.com/?apikey=${apikey}&queue_id=${queue_id}&order_id=${order_id})
 
 #### Submitting final cutout
 
