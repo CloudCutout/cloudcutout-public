@@ -21,11 +21,13 @@ Use this endpoint to get a single string describing the status of the job.
 
 ```
 GET /queue/[QUEUE_ID]/[JOBID]/status?token=[TOKEN]
-Returns: String describing the status, e.g., 'processing', 'error', 'approved', or 'rejected'.
+Returns: String describing the status, e.g., 'processing', 'error', 'qa', 'photoshop'.
 ```
 
+Note that the set of returned statuses depend on the agreement with CloudCutout.
+
 #### Query the statuses of an entire order
-Use this endpoint to get a single string describing the status of the job. 
+Use this endpoint to get a histogram of statuses:
 
 ```
 GET /queue/[QUEUE_ID]/order/[ORDER_ID]/status?token=[TOKEN]
@@ -69,7 +71,7 @@ wget https://s3-us-west-1.amazonaws.com/cloudcutout-web/bayes_final.png
 
 Okay, let's see which queues are available:
 ```
-$ curl -k -X GET "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue?token=${token}"
+$ curl -k -X GET "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue?token=${token}"
 
 [{
 	"customer": "demo",
@@ -85,7 +87,7 @@ Let's submit an image to the queue. Take a JPEG of your own choice, or, if you d
 
 And then submit it as a job for cutting out:
 ```
-$ curl -k -F "file=@bayes.jpg" -X POST "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/todo?token=${token}&filename=thomas01.jpg"
+$ curl -k -F "file=@bayes.jpg" -X POST "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/todo?token=${token}&filename=thomas01.jpg"
 a9a5de5a-a0ea-11e5-8994-feff819cdc9f
 ```
 Note that you will get a different job ID each time you submit. This is the unique identifier for the job.
@@ -95,7 +97,7 @@ Also note that we here used the freedom to specify a different filename for futu
 Now it's time to monitor the job's progress through. We'll save the job ID as a variable to make it easier to follow the example. Let's immediately get the status:
 ```
 $ jobid=a9a5de5a-a0ea-11e5-8994-feff819cdc9f
-$ curl -k -X GET "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/status?token=${token}"
+$ curl -k -X GET "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/status?token=${token}"
 processing
 ```
 If you were fast enough, this returns the string _processing_. Ok, since this is a live demo you'll have to wait for the job to arrive in the expected state, before downloading. Grab some coffee, **wait 5-15 minutes**.
@@ -104,7 +106,7 @@ tic, toc...
 
 Ok, welcome back. Now query for the status again:
 ```
-$ curl -k -X GET "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/status?token=${token}"
+$ curl -k -X GET "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/status?token=${token}"
 qa
 ```
 
@@ -112,7 +114,7 @@ qa
 
 That means that the cutout is ready for inspection. Let's get the download URL and download the image to local disk:
 ```
-$ url=$(curl -k -X GET "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}?token=${token}")
+$ url=$(curl -k -X GET "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}?token=${token}")
 $ echo ${url}
 http://ddcs5o3rgr3a2.cloudfront.net/test/f9ca50bb-f09e-44fe-930e-ba8c0bce96d8_cutout.1.png?Expires=1451303442&Signature=Jjr5U0CriEJbVNoHB2NqemWoYL95WcrchUkXbHG4m7lWLA-N247SBAlG1PEFPy7Xj7-jUqx55T8VUfh9lODBmxa-dJmtEskqujliToKAkzTeORpQ9gMBCRsvEv2QUmXmsXexkUEJtne3RQlSdGjwYnzAWAKHWb0R0dSeHPmbsmz7d4fOzA-VzDEBqiMN4q36wAvSB7elXqch6V8DX4T9NgO3ng8v3qIoMeRSFJd-ngorczg1TN7q6znD~1dKxTKk~mJsXJc3kx1W7MbGmHR9e~I~YHaFpM0r89fVsSFqhExBEbURDfaVdv5~zU5OTSHz6HrVOTYdA0ZZHOnpioG4dg__&Key-Pair-Id=APKAJN3KYHX2CMAYYZOA
 $ wget ${url} -O cutout.png
@@ -134,7 +136,7 @@ For the purpose of the demo, you can once again you can use an image of your own
 
 Submit the image to the _/done_ endpoint
 ```
-$ curl -k -F "file=@bayes_final.png" -X POST "https://api.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/done?token=${token}"
+$ curl -k -F "file=@bayes_final.png" -X POST "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/done?token=${token}"
 a9a5de5a-a0ea-11e5-8994-feff819cdc9f
 ```
 The endpoint returns the jobid as a confirmation of a successful _/done_ call.
