@@ -1,5 +1,5 @@
 ## CloudCutout API documentation
-This provides documentation and [example](#demo) for the CloudCutout queue API. It is suggested to **start with the example**.
+This provides documentation and [example](#demo) for the CloudCutout queue API. 
 
 The following endpoints are provided to submit, query and download images. Replace `[TOKEN]` with the API key you receive from CloudCutout. Replace `[QUEUE_ID]` with the queue ID you receive from CloudCutout.
 
@@ -123,23 +123,10 @@ The downloaded image should look something like this:
 
 ![The produced cutout.png](https://s3-us-west-1.amazonaws.com/cloudcutout-web/bayes_cutout.png)
 
-Note: If you are using the QA tool, the image is ready for that when it is in 'qa'. After screening it will be in either 'photoshop' or 'delivered' when you query for the status.
+Note: If you are using the QA tool, the image is ready for that when it is in 'qa'. After QA'ing it will be in either 'photoshop' or 'delivered' when you query for the status.
 
 If you have an API key, the queue ID and the order ID you can QA an entire order by going to the following link:
-[https://qa-alt.cloudcutout.com/?apikey=${apikey}&queue_id=${queue_id}&order_id=${order_id}](https://qa-alt.cloudcutout.com/?apikey=${apikey}&queue_id=${queue_id}&order_id=${order_id})
-
-#### Submitting final cutout
-
-To tell the system that you are done with the image, we need to have the  final _correct_ cutout back into the system so we can register it. 
-
-For the purpose of the demo, you can once again you can use an image of your own choice, or use [bayes_final.png](https://s3-us-west-1.amazonaws.com/cloudcutout-web/bayes_final.png) which is a PNG with a layer mask.
-
-Submit the image to the _/done_ endpoint
-```
-$ curl -k -F "file=@bayes_final.png" -X POST "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/${jobid}/done?token=${token}"
-a9a5de5a-a0ea-11e5-8994-feff819cdc9f
-```
-The endpoint returns the jobid as a confirmation of a successful _/done_ call.
+[https://qa-alt.cloudcutout.com/?apikey=[TOKEN]&queue_id=[QUEUE_ID]&order_id=[ORDER_ID]](https://qa-alt.cloudcutout.com/?apikey=[TOKEN]&queue_id=[QUEUE_ID]&order_id=[ORDER_ID])
 
 That's it! You got a cutout from the system, edited/QA'ed it and submitted the final version.
 
