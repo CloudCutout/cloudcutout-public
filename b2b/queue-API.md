@@ -6,11 +6,13 @@ The following endpoints are provided to submit, query and download images. Repla
 Prepend all endpoints with `https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/`.
 
 #### Submit image
-Use this endpoint to submit an image for processing and obtain a job ID. `[FILENAME]` (optional) is the filename you want to register for the file. `[ORDER_ID]` (optional) is the order ID you want associated with this image. 
+Use this endpoint to submit an image for processing and obtain a job ID. `[FILENAME]` (optional) is the filename you want to register for the file. `[ORDER_ID]` (optional) is the order ID you want associated with this image. You can include a JSON structure of tags for the specific image (see [tags](#tags) below).
 
 ```
-POST /queue/[QUEUE_ID]/todo?token=[TOKEN]&filename=[FILENAME]&order_id=[ORDER_ID]
+POST /queue/[QUEUE_ID]/todo?token=[TOKEN]
 File as a FormDataParam
+order_id as FormDataParam
+job_tags as FormDataParam
 Returns: The registered job UUID
 ```
 If you submit a previously submitted image (same filename and MD5 sum), the jobid of said image will be returned.
@@ -54,6 +56,19 @@ File as a FormDataParam
 Returns: The job ID
 ```
 
+#### Tags <a name="tags"></a>
+Tags can be associated with an entire order or specific jobs. Currently supported tags are:
+
+```
+"symbol": "star"   // Show a star symbol in the QA tool 
+"cropbox": "x,y,w,h,label"  // x,y,w,h should be decimal values between 0 and 1 (inclusive) indicating the position and size of the crop box relative to the width and height of the image. label is optional and specifies a string, which should be displayed in the upper left corner of the crop box.
+```
+
+The JSON structure with job tags could look like this:
+```
+job_tags = '{"symbol":"star","cropbox": "0.25,0.15,0.5,0.7,5-by-7 portrait"}'
+```
+
 ### Example  <a name="demo"></a>
 This is a live example, where you can try to submit images yourself to a demo queue. The demo is using cURL, but any client capable of performing HTTP requests can be used. 
 
@@ -87,7 +102,7 @@ Let's submit an image to the queue. Take a JPEG of your own choice, or, if you d
 
 And then submit it as a job for cutting out:
 ```
-$ curl -k -F "file=@bayes.jpg" -X POST "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/todo?token=${token}&filename=thomas01.jpg"
+$ curl -k -F "file=@bayes.jpg;filename=thomas01.jpg" -F -X POST "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/todo?token=${token}"
 a9a5de5a-a0ea-11e5-8994-feff819cdc9f
 ```
 Note that you will get a different job ID each time you submit. This is the unique identifier for the job.
