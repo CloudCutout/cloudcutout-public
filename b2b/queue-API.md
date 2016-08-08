@@ -102,7 +102,7 @@ Let's submit an image to the queue. Take a JPEG of your own choice, or, if you d
 
 And then submit it as a job for cutting out:
 ```
-$ curl -k -F "file=@bayes.jpg;filename=thomas01.jpg" -F -X POST "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/todo?token=${token}"
+$ curl -k -F "file=@bayes.jpg;filename=thomas01.jpg" -X POST "https://api2.cloudcutout.com/cloudcutout-workflow-job-service/rest/queue/demo/todo?token=${token}"
 a9a5de5a-a0ea-11e5-8994-feff819cdc9f
 ```
 Note that you will get a different job ID each time you submit. This is the unique identifier for the job.
