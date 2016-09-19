@@ -54,13 +54,17 @@ will be prompted to sign in with username, password and a tag.
     By default the QA tool will display an *Order Overview* with a thumbnail for every image in the order. To start QA'ing the order the user must click the *QA this order now* button.
 By setting this parameter to `true` the *Order Overview* will be skipped and the QA process will start immediately.
 
+- `completeWaitingTime` (default value: `30`)
+    The number of seconds that must passes from the user clicks the *Complete* button until the image is submitted to our servers. By default there is a delay of 30 seconds, 
+    to make it possible to undo an accidential click on the *Complete* button. The countdown to completion is shown on the image thumbnail in the order overview.
+
 - `maxImageSize` (default value: `1500`)
     Controls the resolution of the images in shown in browser. By default images with a width or height larger than 1500 pixels will be 
 scaled down so their width and height is at most 2000 pixels. Note this setting only affects how you see the images in the QA tool -- 
 the cutouts are always rendered in full resolution on our servers. Setting this parameter to `0` will disable downscaling and show
 images in their full resolution. Doing so might make the tool very slow.
 
-- `maxJobCache` (default value: `20`)
+- `maxCachedJobs` (default value: `20`)
     Controls the number of images that will be preloaded in the background. If the next image has been preloaded, it can be displayed almost immediately. Otherwise, it will first have to 
     be downloaded from the server, and the user will see the `Loading next image...` message. Preloaded jobs are stored in memory, don't specify a large value unless you are confident your
     computer and internet connection can handle it.
