@@ -27,7 +27,7 @@ Here two parameters are specified:
 These parameters indicate that you want to QA the order named `myfirstorder` submitted to the queue named `GREENSCREEN`.
 Note the user of `=` to assign a value to a parameter. Also note that the symbol `&` is used to separate different parameters.
 
-Suppose we additionaly would like to set specify the parameter `apikey` with a value of `1234567890`, then we would append `&apikey=1234567890` to the URL, so it becomes:
+Suppose we additionaly would like to specify the parameter `apikey` with a value of `1234567890`, then we would append `&apikey=1234567890` to the URL, so it becomes:
 ```
 https://qa-alt.cloudcutout.com/?queue_id=GREENSCREEN&order_id=myfirstorder&apikey=123456789
 ```
@@ -39,10 +39,10 @@ https://qa-alt.cloudcutout.com/?apikey=123456789&order_id=myfirstorder&queue_id=
 
 ### List of parameters
 Below is a list of possible parameters. Parameters marked as *advanced* or *experimental* should only be changed if you know exactly what you are doing.
-- `order_id` (default value: none, ** This parameter is mandatory**) 
+- `order_id` (default value: none, **This parameter is mandatory**) 
     Specifies the name of the order you want to QA. 
 
-- `queue_id` (default value: none, ** This parameter is mandatory**) 
+- `queue_id` (default value: none, **This parameter is mandatory**) 
     Specifies the name of the queue that your order was placed in. 
 
 - `apikey` (default value: none)
@@ -78,10 +78,11 @@ images in their full resolution. Doing so might make the tool very slow.
 # FAQ
 - **Q: How do I report a bug/problem?**
 A: Send an email to `hwv@cloudcutout.com` with a detailed description of the bug/problem. Please provide as much information as possible. As a minimum provide:
-- The exact time the problem occured (time zone included)
-- The username or apikey you used
-- The queue id
-- The order id
-If the problem is visual, please also provide a screenshot
+    - The exact time the problem occured (time zone included)
+    - The username or apikey you used
+    - The queue id
+    - The order id
+
+  If the problem is visual, please also provide a screenshot
 
  
